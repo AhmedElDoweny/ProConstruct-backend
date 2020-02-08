@@ -1,6 +1,6 @@
 let mongoose = require ('mongoose');
 
-let cartmodel = new mongoose.Schema({
+let cartModel = new mongoose.Schema({
     _id:{
         type:Number,
         required:true,
@@ -17,4 +17,4 @@ let cartmodel = new mongoose.Schema({
 
 });
 //mapping
-mongoose.model("cart",cartmodel);
+mongoose.model("cart",cartModel);

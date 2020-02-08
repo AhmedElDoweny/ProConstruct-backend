@@ -1,2 +1,2 @@
-# ProConstruct_app
-ITI MEAN Stack graduation project
+# ProConstruct-backend
+ITI MEAN Stack graduation project backend

@@ -1,6 +1,6 @@
 let mongoose= require('mongoose');
 
-let notificationmodel=mongoose.Schema({
+let notificationModel=mongoose.Schema({
     _id:{
         type:Number,
         required:true
@@ -10,4 +10,4 @@ let notificationmodel=mongoose.Schema({
 });
 //mapping
 
-mongoose.model("notigication",notificationmodel);
+mongoose.model("notification",notificationModel);

@@ -1,5 +1,5 @@
 {
-  "name": "ProConstruct-app",
+  "name": "ProConstruct_app",
   "version": "1.0.0",
   "description": "ITI MEAN Stack graduation project",
   "main": "./bin/www",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmedElDoweny/ProConstruct-app.git"
+    "url": "git+https://github.com/AhmedElDoweny/ProConstruct_app.git"
   },
   "keywords": [],
   "author": "ITI MEAN Stack Group 2",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AhmedElDoweny/ProConstruct-app/issues"
+    "url": "https://github.com/AhmedElDoweny/ProConstruct_app/issues"
   },
-  "homepage": "https://github.com/AhmedElDoweny/ProConstruct-app#readme",
+  "homepage": "https://github.com/AhmedElDoweny/ProConstruct_app#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",

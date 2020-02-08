@@ -1,7 +1,10 @@
 let mongoose= require('mongoose');
 
 let notificationmodel=mongoose.Schema({
-    _id:Number,
+    _id:{
+        type:Number,
+        required:true
+    },
     title:String,
     content:String
 });

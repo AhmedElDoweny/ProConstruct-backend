@@ -10,4 +10,4 @@ let notificationmodel=mongoose.Schema({
 });
 //mapping
 
-mongoose.model("notigication",notificationmodel);
+mongoose.model("notification",notificationmodel);

@@ -1,7 +1,7 @@
 {
-  "name": "ProConstruct_app",
+  "name": "ProConstruct-backend",
   "version": "1.0.0",
-  "description": "ITI MEAN Stack graduation project",
+  "description": "ITI MEAN Stack graduation project backend",
   "main": "./bin/www",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AhmedElDoweny/ProConstruct_app.git"
+    "url": "git+https://github.com/AhmedElDoweny/ProConstruct-backend.git"
   },
   "keywords": [],
   "author": "ITI MEAN Stack Group 2",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AhmedElDoweny/ProConstruct_app/issues"
+    "url": "https://github.com/AhmedElDoweny/ProConstruct-backend/issues"
   },
-  "homepage": "https://github.com/AhmedElDoweny/ProConstruct_app#readme",
+  "homepage": "https://github.com/AhmedElDoweny/ProConstruct-backend#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",

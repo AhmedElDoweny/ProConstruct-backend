@@ -11,4 +11,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// console request
+app.use((request,response,next)=>{
+    console.log("url-> ",request.url,"method-> ",request.method);
+    next();
+})
+
+// home route
+app.use(/\//,(request,response)=>{
+    response.send("WELCOME HOME...")
+})
+
+// 404 route
+app.use("**",(request,response)=>{
+    response.send("404 NOT Found")
+})
+
 module.exports = app;

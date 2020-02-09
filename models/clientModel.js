@@ -20,7 +20,7 @@ let clientSchema = new mongoose.Schema({
     },
     role: String,
     location: String,
-    phone: Number,
+    phone: String,
     image: String,
     post:{
         type: [Number],

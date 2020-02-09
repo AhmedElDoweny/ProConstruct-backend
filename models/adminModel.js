@@ -1,36 +1,27 @@
 let mongoose = require("mongoose");
 
 // create schema
-let clientSchema = new mongoose.Schema({
-    _id:{
+let adminSchema = new mongoose.Schema({
+    _id: {
         type: Number,
         required: true
     },
-    name:{
+    name: {
         type: String,
         required: true
     },
-    password:{
-        type: String,
+    password: {
+        type: Number,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true
     },
     role: String,
-    location: String,
     phone: String,
     image: String,
-    post:{
-        type: [Number],
-        ref: "post"
-    },
-    cart:{
-        type: Number,
-        ref: "cart",
-    },
-    notification:{
+    notification: {
         type: [Number],
         ref: "notification"
     }
@@ -39,4 +30,4 @@ let clientSchema = new mongoose.Schema({
 })
 
 // mapping
-mongoose.model("client",clientSchema)
+mongoose.model("admin", adminSchema)

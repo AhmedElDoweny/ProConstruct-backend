@@ -6,7 +6,11 @@ let postSchema = new mongoose.Schema({
     category:String,
     description:String,
     price:Number,
-    image:String
+    image:String,
+    client:{
+        type:Number,
+        ref : "client"
+    }
 });
 
 mongoose.model("post",postSchema);

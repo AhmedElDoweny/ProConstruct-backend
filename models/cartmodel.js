@@ -11,21 +11,21 @@ let cartModel = new mongoose.Schema({
         ref:"client",
         required:true
     },
-    pending:[{
-        type:Number,
+    pending:{
+        type:[Number],
         ref:"post",
         required:true
-    }] ,
-    completed:[{
-        type:Number,
+    } ,
+    completed:{
+        type:[Number],
         ref:"post",
         required:true
-    }],
-    rejected:[{
-        type:Number,
+    },
+    rejected:{
+        type:[Number],
         ref:"post",
         required:true
-    }]
+    }
 
 });
 //mapping

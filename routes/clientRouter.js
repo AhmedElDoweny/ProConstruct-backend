@@ -6,11 +6,18 @@ let express = require('express'),
     let clientSchema = mongoose.model('client')
 
     // get all clients
-clientRouter.route("/client")
+clientRouter.route("/client/:id?")
             .get((request, response) => {
-                clientSchema.find({})
-                .then(data => response.send(data))
-                .catch(err => response.send({err: err.errmsg}))
+                if(request.params.id){
+                    clientSchema.findOne({_id: request.params.id})
+                    .then(data => response.send(data))
+                    .catch(err => response.send({err: err.errmsg}))
+                }
+                else{
+                    clientSchema.find({})
+                    .then(data => response.send(data))
+                    .catch(err => response.send({err: err.errmsg}))
+                }
             })
             // add new Clients
             .post((request, response) => {
@@ -54,11 +61,4 @@ clientRouter.route("/client")
                 .catch(err => response.send(err.errmsg))
             })
 
-    // get one client
-clientRouter.route("/client/:id")
-            .get((request, response) => {
-                clientSchema.findOne({_id: request.params.id})
-                .then(data => response.send(data))
-                .catch(err => response.send({err: err.errmsg}))
-            })
 module.exports = clientRouter;

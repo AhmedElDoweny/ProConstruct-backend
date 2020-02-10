@@ -5,6 +5,7 @@ const logger = require('morgan');
 let clientRouter = require('./routes/clientRouter')
 
 const cartRouter=require("./routes/cartRouter");
+const notificationRouter = require("./routes/notificationRouter");
 
 const postRouter = require("./routes/postRouter");
 
@@ -30,6 +31,7 @@ app.use(/\//,(request,response)=>{
 app.use(clientRouter)
 app.use(postRouter);
 app.use(cartRouter);
+app.use(notificationRouter);
 
 // 404 route
 app.use("**",(request,response)=>{

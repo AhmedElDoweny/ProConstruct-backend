@@ -6,6 +6,8 @@ let clientRouter = require('./routes/clientRouter')
 
 const cartRouter=require("./routes/cartRouter");
 
+const postRouter = require("./routes/postRouter");
+
 const app = express();
 
 app.use(logger('dev'));
@@ -24,9 +26,11 @@ app.use((request,response,next)=>{
 app.use(/\//,(request,response)=>{
     response.send("WELCOME HOME...")
 })
-app.use(clientRouter)
 
-app.use(cartRouter)
+app.use(clientRouter)
+app.use(postRouter);
+app.use(cartRouter);
+
 // 404 route
 app.use("**",(request,response)=>{
     response.send("404 NOT Found")

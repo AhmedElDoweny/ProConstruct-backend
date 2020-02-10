@@ -25,7 +25,6 @@ app.use(/\//,(request,response)=>{
     response.send("WELCOME HOME...")
 })
 
-app.use(cartRouter);
 app.use(notificationRouter)
 // 404 route
 app.use("**",(request,response)=>{

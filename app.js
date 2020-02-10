@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const cartRouter=require("./routes/cartRouter");
+
 const app = express();
 
 app.use(logger('dev'));
@@ -22,6 +24,7 @@ app.use(/\//,(request,response)=>{
     response.send("WELCOME HOME...")
 })
 
+app.use(cartRouter)
 // 404 route
 app.use("**",(request,response)=>{
     response.send("404 NOT Found")

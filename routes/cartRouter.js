@@ -7,16 +7,25 @@ let express = require("express"),
     let cartmodel=mongoose.model("cart");
 
 
-cartRouter.route("/cart")
-                .get("/cart/:id" , (requuest,response)=>{
-
-                    cartmodel.findOne({_id:requuest.body.id})
-                    .then((result)=>{
-                        response.send(result);
+cartRouter.route("/cart/:_id?")
+                .get((request,response)=>{
+                    console.log(request.params._id);
+                    if(request.params._id){
+                        cartmodel.findOne({_id:request.params._id})
+                        .then(result=>{
+                            response.send(result);
+                        })
+                        .catch((err)=>{
+                            response.send({ err: err.errmsg })
                     })
-                    .catch((error)=>{
-                        response.send(error)
-                    })
+                    }else{
+                        cartmodel.find({})
+                        .then(result=>{response.send(result); 
+                        })
+                        .catch((err)=>{
+                            response.send({ err: err.errmsg })
+                        })
+                }
                 })
                 //add
                 .post((request,response)=>{
@@ -30,8 +39,8 @@ cartRouter.route("/cart")
                     console.log("Add ==>" + cartObject);
                     cartObject.save().then(data=>{
                         response.send(data)
-                    }).catch((error)=>{
-                        response.send(error)
+                    }).catch((err)=>{
+                        response.send({ err: err.errmsg });
                     })
                 })
                 //Edit
@@ -44,16 +53,28 @@ cartRouter.route("/cart")
                     .then((data)=>{
                         response.send(data)
                     })
-                    .then((err)=>{
-                        response.send(err)  
-                    })
+                    .catch((err)=>{
+                        response.send({ err: err.errmsg });  })
                 })
-                .delete("/cart/:id",(request,response)=>{
-                    cartmodel.deleteOne({_id:request.params.id})
+                .delete((request,response)=>{
+                    cartmodel.deleteOne({_id:request.params._id})
                     .then(()=>response.send("deleted")) 
-                    .catch((err)=>{response.send(err.errmsg)})
+                    .catch((err)=>{response.send({ err: err.errmsg })})
                 })
 
+                // cartRouter.get("/cart/:id" , (request,response)=>{
 
+                //         cartmodel.findOne({_id:request.params.id})
+                //         .then(result=>{response.send(result); })
+                //         .catch((err)=>{
+                //             response.send({ err: err.errmsg })
+                //         });
+                //     })
+                    
+                // cartRouter.delete("/cart/:id",(request,response)=>{
+                //         cartmodel.deleteOne({_id:request.params.id})
+                //         .then(()=>response.send("deleted")) 
+                //         .catch((err)=>{response.send({ err: err.errmsg })})
+                //     })
 
 module.exports=cartRouter;

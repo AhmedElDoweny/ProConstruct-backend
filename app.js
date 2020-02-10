@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+let clientRouter = require('./routes/clientRouter')
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use((request,response,next)=>{
 app.use(/\//,(request,response)=>{
     response.send("WELCOME HOME...")
 })
+app.use(clientRouter)
 
 // 404 route
 app.use("**",(request,response)=>{

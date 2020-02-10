@@ -21,6 +21,7 @@ clientRouter.route("/client/:id?")
             })
             // add new Clients
             .post((request, response) => {
+                
                 let client = new clientSchema({
                     _id: request.body._id,
                     name: request.body.name,
@@ -31,9 +32,10 @@ clientRouter.route("/client/:id?")
                     image: request.body.image,
                     role: request.body.role
                 })
-                console.log("add new client" + client)
-                client.save().then(data => {response.send(data);
-                }).catch(err => response.send({err:err.errmsg}))
+                
+                client.save()
+                    .then(data => {response.send(data)})
+                    .catch(err => response.send({err:err.errmsg}))
             })
             // edit client
             .put((request, response) => {
@@ -57,8 +59,8 @@ clientRouter.route("/client/:id?")
             // delete client
             .delete((request, response) => {
                 clientSchema.deleteOne({_id: request.body._id})
-                .then(() => response.send('{deleted}'))
-                .catch(err => response.send(err.errmsg))
+                .then(() => response.send({ deleted: true }))
+                .catch(err => response.send({err: err.errmsg}))
             })
 
 module.exports = clientRouter;

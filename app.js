@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const cartRouter=require("./routes/cartRouter");
+const notificationRouter=require("./routes/notificationRouter")
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.use(/\//,(request,response)=>{
     response.send("WELCOME HOME...")
 })
 
-app.use(cartRouter)
+app.use(cartRouter);
+app.use(notificationRouter)
 // 404 route
 app.use("**",(request,response)=>{
     response.send("404 NOT Found")

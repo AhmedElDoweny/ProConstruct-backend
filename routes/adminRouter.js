@@ -5,7 +5,7 @@ const express = require("express"),
 require("../models/adminModel");
 const adminSchema = mongoose.model("admin");
 
-adminRouter.Router("/admin/:_id?")
+adminRouter.route("/admin/:_id?")
 
     // GET -> get one admin
     .get((request, response) => {

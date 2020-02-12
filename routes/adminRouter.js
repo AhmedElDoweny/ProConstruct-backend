@@ -9,13 +9,13 @@ adminRouter.route("/admin/:_id?")
 
     // GET -> get one admin
     .get((request, response) => {
-        if (request.params.id) {
-            adminSchema.findOne({ _id: request.params.id })
+        if (request.params._id) {
+            adminSchema.findOne({ _id: request.params._id })
                 .then(data => response.send(data))
                 .catch(error => response.send(error))
         } else {
             adminSchema.find({})
-                .then(data => response.send(data))
+                .then(data => {response.send(data);console.log(request.params.id)})
                 .catch(error => response.send(error))
         }
     })
@@ -24,14 +24,14 @@ adminRouter.route("/admin/:_id?")
     .post((request, response) => {
 
         let newAdmin = new adminSchema({
-            _id: request.params._id,
-            name: request.params.name,
-            password: request.params.password,
-            email: request.params.email,
-            role: request.params.role,
-            phone: request.params.phone,
-            image: request.params.image,
-            notification: request.params.notification
+            _id: request.body._id,
+            name: request.body.name,
+            password: request.body.password,
+            email: request.body.email,
+            role: request.body.role,
+            phone: request.body.phone,
+            image: request.body.image,
+            notification: request.body.notification
         })
 
         newAdmin.save()
@@ -42,13 +42,13 @@ adminRouter.route("/admin/:_id?")
     // PUT -> edit admin
     .put((request, response) => {
         adminSchema.updateOne({ _id: request.body._id }, {
-            name: request.params.name,
-            password: request.params.password,
-            email: request.params.email,
-            role: request.params.role,
-            phone: request.params.phone,
-            image: request.params.image,
-            notification: request.params.notification
+            name: request.body.name,
+            password: request.body.password,
+            email: request.body.email,
+            role: request.body.role,
+            phone: request.body.phone,
+            image: request.body.image,
+            notification: request.body.notification
         })
             .then(data => response.send(data))
             .catch(error => response.send(error))

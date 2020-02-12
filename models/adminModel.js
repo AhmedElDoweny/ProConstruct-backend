@@ -18,7 +18,10 @@ let adminSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role: String,
+    role: {
+        type: String,
+        required: true
+    },
     phone: String,
     image: String,
     notification: {

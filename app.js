@@ -1,14 +1,15 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-let clientRouter = require('./routes/clientRouter');
-var cors = require('cors');
 
-const cartRouter=require("./routes/cartRouter");
-const notificationRouter = require("./routes/notificationRouter");
+const express = require('express'),
+    path = require('path'),
+    cookieParser = require('cookie-parser'),
+    logger = require('morgan'),
+    cors = require('cors');
 
-const postRouter = require("./routes/postRouter");
+const clientRouter = require('./routes/clientRouter'),
+    cartRouter = require("./routes/cartRouter"),
+    notificationRouter = require("./routes/notificationRouter"),
+    postRouter = require("./routes/postRouter"),
+    adminRouter = require("./routes/adminRouter");
 
 const app = express();
 
@@ -20,23 +21,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // console request
-app.use((request,response,next)=>{
-    console.log("url-> ",request.url,"method-> ",request.method);
+app.use((request, response, next) => {
+    console.log("url-> ", request.url, "method-> ", request.method);
     next();
 })
 
 // home route
-app.use(/\//,(request,response)=>{
+app.use(/\//, (request, response) => {
     response.send("WELCOME HOME...")
 })
 
-app.use(clientRouter)
+app.use(clientRouter);
 app.use(postRouter);
 app.use(cartRouter);
 app.use(notificationRouter);
+app.use(adminRouter);
 
 // 404 route
-app.use("**",(request,response)=>{
+app.use("**", (request, response) => {
     response.send("404 NOT Found")
 })
 

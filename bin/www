@@ -8,10 +8,12 @@ const app = require('../app');
 const debug = require('debug')('proconstruct-app:server');
 const http = require('http');
 const mongoose=require("mongoose");
+const KEYS=require("../KEYS")
 
 // DB connection
-mongoose.connect("mongodb://localhost:27017/ProConstruct",{ useNewUrlParser: true })
-.then(()=>{console.log("------------ connected with DB ------------ \n--------------------------------")})
+// mongoose.connect("mongodb://localhost:27017/ProConstruct",{ useNewUrlParser: true })
+mongoose.connect(`mongodb+srv://${KEYS.user}:${KEYS.pass}@proconstruct-a5jss.mongodb.net/test?retryWrites=true&w=majority`,{ useUnifiedTopology: true })
+.then(()=>{console.log(`------------ connected with DB user ${KEYS.user} ------------ \n--------------------------------`)})
 
 
 /**

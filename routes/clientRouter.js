@@ -30,7 +30,9 @@ clientRouter.route("/client/:id?")
                     phone: request.body.phone,
                     locatioin: request.body.location,
                     image: request.body.image,
-                    role: request.body.role
+                    role: request.body.role,
+                    post: request.body.post,
+                    cart: request.body.cart
                 })
                 
                 client.save()

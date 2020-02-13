@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 
 // create schema
-let clientSchema = new mongoose.Schema({
+let settingSchema = new mongoose.Schema({
     _id:{
         type: Number,
         required: true
@@ -31,4 +31,4 @@ let clientSchema = new mongoose.Schema({
 })
 
 // mapping
-mongoose.model("client",clientSchema)
+mongoose.model("setting",settingSchema)

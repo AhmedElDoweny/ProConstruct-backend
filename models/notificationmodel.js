@@ -1,4 +1,7 @@
-let mongoose= require('mongoose');
+let mongoose= require('mongoose'),
+    autoInc = require("mongoose-auto-increment"),
+    connection = mongoose.createConnection(`mongodb://localhost:27017/ProConstruct`, { useNewUrlParser: true, useUnifiedTopology: true });
+    autoInc.initialize(connection)
 
 let notificationModel= new mongoose.Schema({
     _id:{
@@ -27,6 +30,8 @@ let notificationModel= new mongoose.Schema({
         require:true
     }
 });
+notificationModel.plugin(autoInc.plugin, {model:'notification',field: '_id', startAt: 1, incrementBy: 1 })
+
 //mapping
 
 mongoose.model("notification",notificationModel);

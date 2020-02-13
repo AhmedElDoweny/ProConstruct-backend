@@ -1,4 +1,8 @@
-let mongoose = require("mongoose");
+let mongoose = require("mongoose"),
+    autoInc = require("mongoose-auto-increment"),
+    connection = mongoose.createConnection(`mongodb://localhost:27017/ProConstruct`, { useNewUrlParser: true, useUnifiedTopology: true });
+    autoInc.initialize(connection)
+
 
 // create schema
 let clientSchema = new mongoose.Schema({
@@ -37,6 +41,6 @@ let clientSchema = new mongoose.Schema({
 
 
 })
-
+clientSchema.plugin(autoInc.plugin, {model:'client',field: '_id', startAt: 1, incrementBy: 1 })
 // mapping
 mongoose.model("client",clientSchema)

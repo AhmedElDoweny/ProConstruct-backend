@@ -1,24 +1,24 @@
 let mongoose = require("mongoose"),
     autoInc = require("mongoose-auto-increment"),
     connection = mongoose.createConnection(`mongodb://localhost:27017/ProConstruct`, { useNewUrlParser: true, useUnifiedTopology: true });
-    autoInc.initialize(connection)
+autoInc.initialize(connection)
 
 
 // create schema
 let clientSchema = new mongoose.Schema({
-    _id:{
+    _id: {
         type: Number,
         required: true
     },
-    name:{
+    name: {
         type: String,
         required: true
     },
-    password:{
+    password: {
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true
     },
@@ -26,21 +26,21 @@ let clientSchema = new mongoose.Schema({
     location: String,
     phone: String,
     image: String,
-    post:[{
+    post: [{
         type: Number,
         ref: "post"
     }],
-    cart:{
+    cart: {
         type: Number,
         ref: "cart",
     },
-    notification:[{
+    notification: [{
         type: Number,
         ref: "notification"
     }]
 
 
 })
-clientSchema.plugin(autoInc.plugin, {model:'client',field: '_id', startAt: 1, incrementBy: 1 })
+clientSchema.plugin(autoInc.plugin, { model: 'client', field: '_id', startAt: 1, incrementBy: 1 })
 // mapping
-mongoose.model("client",clientSchema)
+mongoose.model("client", clientSchema)

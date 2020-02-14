@@ -26,18 +26,18 @@ let clientSchema = new mongoose.Schema({
     location: String,
     phone: String,
     image: String,
-    post:{
-        type: [Number],
+    post:[{
+        type: Number,
         ref: "post"
-    },
+    }],
     cart:{
         type: Number,
         ref: "cart",
     },
-    notification:{
-        type: [Number],
+    notification:[{
+        type: Number,
         ref: "notification"
-    }
+    }]
 
 
 })

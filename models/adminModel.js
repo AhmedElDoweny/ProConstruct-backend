@@ -27,10 +27,10 @@ let adminSchema = new mongoose.Schema({
     },
     phone: String,
     image: String,
-    notification: {
-        type: [Number],
+    notification: [{
+        type: Number,
         ref: "notification"
-    }
+    }]
 
 
 })

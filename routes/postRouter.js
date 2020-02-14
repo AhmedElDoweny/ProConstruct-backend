@@ -23,7 +23,8 @@ postRouter.route("/post")
                     category:request.body.category,                    
                     description:request.body.description,          
                     price:request.body.price,          
-                    image:request.body.image         
+                    image:request.body.image,
+                    client:request.body.client
                 })
                 postObject.save()
                           .then((data)=>{

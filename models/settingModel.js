@@ -13,18 +13,9 @@ let settingSchema = new mongoose.Schema({
         type: String
     },
     links: {
-        type: [{
-            title: {
-                type: String,
-                required: true
-            },
-            link: {
-                type: String,
-                required: true
-            }
-        }],
+        type: [String],
     },
-    contactsEmails: [{
+    contactUsMessages: {
         type: [{
             id: {
                 type: Number,
@@ -44,7 +35,7 @@ let settingSchema = new mongoose.Schema({
                 required: true
             },
         }]
-    }],
+    },
     newsLetterEmails: [String]
 })
 

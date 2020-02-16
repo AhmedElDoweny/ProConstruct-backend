@@ -7,7 +7,7 @@ require("../models/postModel");
 
 let postSchema = mongoose.model('post');
 
-postRouter.route("/post")
+postRouter.route("/posts")
           .get((request,response)=>{
                 postSchema.find({})
                 .then((data)=>{
@@ -62,6 +62,12 @@ postRouter.route("/post")
                 })
           })
 
+// post-details
+postRouter.get("/posts/:id",(request,response)=>{
+    postSchema.findOne({_id:request.params.id})
+        .then(data=>{response.send(data)})
+        .catch(error=>{response.send(error)})
+})
 
 
 module.exports = postRouter;

@@ -7,14 +7,15 @@ require("../models/postModel");
 
 let postSchema = mongoose.model('post');
 
-postRouter.route("/post")
-    .get((request, response) => {
-        postSchema.find({})
-            .then((data) => {
-                response.send(data)
-            })
-            .catch((error) => { response.send(error) })
-    })
+
+postRouter.route("/posts")
+          .get((request,response)=>{
+                postSchema.find({})
+                .then((data)=>{
+                    response.send(data)                  
+                })
+                .catch((error)=>{response.send(error)})
+          })
 
     .post((request, response) => {
         let postObject = new postSchema({
@@ -63,6 +64,12 @@ postRouter.route("/post")
             })
     })
 
+// post-details
+postRouter.get("/posts/:id",(request,response)=>{
+    postSchema.findOne({_id:request.params.id})
+        .then(data=>{response.send(data)})
+        .catch(error=>{response.send(error)})
+})
 
 
 module.exports = postRouter;

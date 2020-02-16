@@ -15,7 +15,7 @@ adminRouter.route("/admin/:_id?")
                 .catch(error => response.send(error))
         } else {
             adminSchema.find({})
-                .then(data => {response.send(data);console.log(request.params.id)})
+                .then(data => { response.send(data); console.log(request.params.id) })
                 .catch(error => response.send(error))
         }
     })

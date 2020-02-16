@@ -14,8 +14,9 @@ const clientRouter = require('./routes/clientRouter'),
     cartRouter = require("./routes/cartRouter"),
     notificationRouter = require("./routes/notificationRouter"),
     postRouter = require("./routes/postRouter"),
-    adminRouter = require("./routes/adminRouter"),
-    loginRouter = require("./routes/loginRouter")
+    loginRouter = require("./routes/loginRouter"),
+    settingRouter = require("./routes/settingRouter"),
+    adminRouter = require("./routes/adminRouter");
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use(postRouter);
 app.use(cartRouter);
 app.use(notificationRouter);
 app.use(adminRouter);
+app.use(settingRouter);
 
 // 404 route
 app.use("**", (request, response) => {

@@ -7,16 +7,15 @@
 const app = require('../app');
 const debug = require('debug')('proconstruct-app:server');
 const http = require('http');
-const mongoose=require("mongoose");
-const KEYS=require("../KEYS")
+const mongoose = require("mongoose");
+const KEYS = require("../KEYS")
 
 // DB connection
-mongoose.connect("mongodb://localhost:27017/ProConstruct",{ useNewUrlParser: true })
 // mongoose.connect(`mongodb+srv://${KEYS.user}:${KEYS.pass}@proconstruct-a5jss.mongodb.net/ProConstruct?retryWrites=true&w=majority`,{ useUnifiedTopology: true })
-// mongoose.connect(`mongodb://localhost:27017/ProConstruct`,{ useUnifiedTopology: true })
-.then(()=>{console.log(`------------ connected with DB user ${KEYS.user} ------------ \n--------------------------------`)})
-.catch(error => console.log(error));
-
+mongoose.connect(`mongodb://localhost:27017/ProConstruct`, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then(() => { console.log(`------------ connected with DB user ${KEYS.user} ------------ \n--------------------------------`) })
+  .catch(error => console.log(error));
+mongoose.set('useCreateIndex', true);
 
 /**
  * Get port from environment and store in Express.
@@ -35,7 +34,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, (e)=>console.log('------------ I am Listening ------------'));
+server.listen(port, (e) => console.log('------------ I am Listening ------------'));
 server.on('error', onError);
 server.on('listening', onListening);
 

@@ -1,15 +1,21 @@
 let express = require('express'),
     clientRouter = express.Router(),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    jwtConfig = require('../config/jwtConfig');
 
     require('../models/clientModel')
     let clientSchema = mongoose.model('client')
-
+    
     // get all clients
 clientRouter.route("/client/:id?")
-            .get((request, response) => {
+            .get((jwtConfig.verifyJwtToken),(request, response) => {
                 if(request.params.id){
                     clientSchema.findOne({_id: request.params.id})
+                    .then(data => response.send(data))
+                    .catch(err => response.send({err: err.errmsg}))
+                }
+                else if(request.email){
+                    clientSchema.findOne({email: request.email})
                     .then(data => response.send(data))
                     .catch(err => response.send({err: err.errmsg}))
                 }
@@ -20,7 +26,7 @@ clientRouter.route("/client/:id?")
                 }
             })
             // add new Clients
-            .post((request, response) => {
+            .post((request, response, next) => {
                 
                 let client = new clientSchema({
                     _id: request.body._id,
@@ -33,12 +39,19 @@ clientRouter.route("/client/:id?")
                     role: request.body.role
                 })
                 
-                client.save()
-                    .then(data => {response.send(data)})
-                    .catch(err => response.send({err:err.errmsg}))
+                client.save((err, data) => {
+                    if(!err)  response.status(200).json({ "token": data.generateJwt() }); //response.send(data)
+                    else {
+                        if(err.code == 11000)
+                            response.status(442).send(['Email is already existing'])
+                        else
+                            return next(err)
+                    }
+                })
+                    
             })
             // edit client
-            .put((request, response) => {
+            .put((jwtConfig.verifyJwtToken),(request, response) => {
                 clientSchema.updateOne({_id:request.body._id},{
                     $set:{
                         name: request.body.name,
@@ -57,7 +70,7 @@ clientRouter.route("/client/:id?")
                 .catch(err => response.send({err: err.errmsg}))
             })
             // delete client
-            .delete((request, response) => {
+            .delete((jwtConfig.verifyJwtToken),(request, response) => {
                 clientSchema.deleteOne({_id: request.body._id})
                 .then(() => response.send({ deleted: true }))
                 .catch(err => response.send({err: err.errmsg}))

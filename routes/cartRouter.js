@@ -79,16 +79,6 @@ cartRouter.route("/cart/:_id?")
              })
              
     })
-    // .patch((request,response)=>{
-    //     cartmodel.update({_id:request.params._id},
-    //          cartmodel.pending.pull({_id:request.body._id}))
-    //          .then((data)=>{
-    //              response.send(data)
-    //          })
-    //          .catch((err)=>{
-    //              response.send(err)
-    //          })
-             
-    // })
+    
 
 module.exports = cartRouter;

@@ -68,5 +68,17 @@ cartRouter.route("/cart/:_id?")
                 response.send({ err: err.errmsg })
             })
     })
+    .patch((request,response)=>{
+        cartmodel.update({_id:request.params._id},
+             {$pull:{ "pending": request.body._id}})
+             .then((data)=>{
+                 response.send(data)
+             })
+             .catch((err)=>{
+                 response.send(err)
+             })
+             
+    })
+    
 
 module.exports = cartRouter;

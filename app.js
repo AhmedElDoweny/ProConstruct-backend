@@ -18,14 +18,41 @@ const clientRouter = require('./routes/clientRouter'),
     settingRouter = require("./routes/settingRouter"),
     adminRouter = require("./routes/adminRouter");
 
-const app = express();
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
+const whitelist = ['http://localhost:4100', 'http://localhost:4200', 'http://localhost:4300', 'http://localhost:4400'];
+const corsOptions = {
+    credentials: true, // This is important.
+    origin: (origin, callback) => {
+        if (whitelist.includes(origin))
+            return callback(null, true)
+
+        callback(new Error('Not allowed by CORS'));
+    }
+}
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// io.on('connection', function (socket) {
+//     console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ a user connected ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+//     socket.on('disconnect', function () {
+//         console.log('user disconnected');
+//     });
+// });
+
+io.on('connection', function (socket) {
+    console.log('a user connected');
+    socket.on('disconnect', ()=>{
+        console.log('user disconnected')
+    })
+});
 
 // console request
 app.use((request, response, next) => {
@@ -58,7 +85,17 @@ app.use((err, req, res, next) => {
         Object.keys(err.errors).forEach(key => valErrors.push(err.errors[key].message));
         res.status(422).send(valErrors)
     }
-    
 });
+
+// io.on("connection", socket => {
+//     console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ user is connected ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+//     socket.on('my message', (msg) => {
+//         debugger;
+//         console.log('message: ' + msg);
+//     });
+
+//     socket.on("disconnect", () => console.log("################## user is disconnected ##################"))
+// })
 
 module.exports = app;

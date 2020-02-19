@@ -3,6 +3,7 @@ let express = require('express'),
     mongoose = require('mongoose'),
     jwtConfig = require('../config/jwtConfig');
 
+
     require('../models/clientModel')
     let clientSchema = mongoose.model('client')
     
@@ -64,5 +65,6 @@ clientRouter.route("/client/:id?")
                 .then(() => response.send({ deleted: true }))
                 .catch(err => response.send({err: err.errmsg}))
             })
+
 
 module.exports = clientRouter;

@@ -2,33 +2,42 @@ let mongoose = require("mongoose");
 
 // create schema
 let settingSchema = new mongoose.Schema({
-    _id:{
+    _id: {
         type: Number,
         required: true
     },
-    aboutApp:{
-        type: String,
-        required: true
+    aboutApp: {
+        type: String
     },
-    contactEmail:{
-        type: String,
-        required: true
+    contactEmail: {
+        type: String
     },
-    links:{
+    links: {
+        type: [String],
+    },
+    contactUsMessages: {
         type: [{
-            title:{
-                type:String,
+            id: {
+                type: Number,
                 required: true
             },
-            link:{
-                type:String,
+            name: String,
+            email: {
+                type: String,
                 required: true
-            }
-        }],
-        required: true
+            },
+            subject: {
+                type: String,
+                required: true
+            },
+            message: {
+                type: String,
+                required: true
+            },
+        }]
     },
-
+    newsLetterEmails: [String]
 })
 
 // mapping
-mongoose.model("setting",settingSchema)
+mongoose.model("setting", settingSchema)

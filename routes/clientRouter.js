@@ -51,20 +51,9 @@ clientRouter.route("/client/:id?")
                     
             })
             // edit client
-            .put((jwtConfig.verifyJwtToken),(request, response) => {
-                clientSchema.updateOne({_id:request.body._id},{
-                    $set:{
-                        name: request.body.name,
-                        password: request.body.password,
-                        email: request.body.email,
-                        phone: request.body.phone,
-                        locatioin: request.body.location,
-                        image: request.body.image,
-                        role: request.body.role,
-                        post: request.body.post,
-                        cart: request.body.cart,
-                        notification: request.body.notification
-                    }
+            .patch((jwtConfig.verifyJwtToken),(request, response) => {
+                clientSchema.updateOne({email:request.email},{
+                    $set:request.body.edit
                 })
                 .then(data => response.send(data))
                 .catch(err => response.send({err: err.errmsg}))

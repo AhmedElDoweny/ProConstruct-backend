@@ -1,13 +1,14 @@
 
 let express = require('express');
 let postRouter = express.Router();
+let jwtConfig = require('../config/jwtConfig');
 
 let mongoose = require('mongoose');
 require("../models/postModel");
 
 let postSchema = mongoose.model('post');
 
-postRouter.route("/post")
+postRouter.route("/posts")
           .get((request,response)=>{
                 postSchema.find({})
                 .then((data)=>{
@@ -16,14 +17,16 @@ postRouter.route("/post")
                 .catch((error)=>{response.send(error)})
           })
 
-          .post((request,response)=>{
+          .post((jwtConfig.verifyJwtToken),(request,response)=>{
+              console.log(request._id)
                 let postObject = new postSchema({
                     _id:request.body._id,
                     title:request.body.title,                    
                     category:request.body.category,                    
                     description:request.body.description,          
                     price:request.body.price,          
-                    image:request.body.image         
+                    image:request.body.image ,
+                    client: request._id       
                 })
                 postObject.save()
                           .then((data)=>{

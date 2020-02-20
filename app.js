@@ -18,9 +18,7 @@ const clientRouter = require('./routes/clientRouter'),
     settingRouter = require("./routes/settingRouter"),
     adminRouter = require("./routes/adminRouter");
 
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const app = require('express')();
 
 const whitelist = ['http://localhost:4100', 'http://localhost:4200', 'http://localhost:4300', 'http://localhost:4400'];
 const corsOptions = {
@@ -39,26 +37,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// io.on('connection', function (socket) {
-//     console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ a user connected ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-//     socket.on('disconnect', function () {
-//         console.log('user disconnected');
-//     });
-// });
-
-io.on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('disconnect', ()=>{
-        console.log('user disconnected')
-    })
-});
-
-// console request
-app.use((request, response, next) => {
-    console.log("url-> ", request.url, "method-> ", request.method);
-    next();
-})
 
 // home route
 app.use(/\//, (request, response) => {

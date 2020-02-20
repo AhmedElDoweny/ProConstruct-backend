@@ -30,6 +30,39 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
+let clients = [];
+
+var io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log('^^^^^^^^^^^^^^^^^^^^ a user connected ^^^^^^^^^^^^^^^^^^^^');
+
+  socket.on('creat socket id', (clientId) => {
+    let id = clients.findIndex(c => c._id == clientId);
+    if (id == -1) {
+      clients.push({
+        _id: clientId,
+        socketId: socket.id
+      })
+    } else {
+      clients[id].socketId = socket.id
+    }
+    console.log("clients arr: ", clients)
+  })
+
+  socket.on('send notification', (obj) => {
+    let client = clients.find(c => c._id == obj.to)
+    if (client){
+      io.to(client.socketId).emit('receive notification', obj.data);
+      console.log("obj.to: ", obj.to, "client: socketId", client.socketId, "im: ", obj.data.me)
+    }
+  })
+
+  socket.on('disconnect', () => {
+    console.log('$$$$$$$$ user disconnected $$$$$$$$');
+  });
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */

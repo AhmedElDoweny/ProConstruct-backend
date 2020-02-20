@@ -18,6 +18,8 @@ module.exports.verifyJwtToken = (req, res, next) => {
                     return res.status(500).send({ auth: false, message: 'Token authentication failed.' });
                 else {
                     req.email = decoded.email;
+                    req._id = decoded._id;
+                    req.role = decoded.role
                     next();
                 }
             }

@@ -1,6 +1,7 @@
 
 let express = require('express');
 let postRouter = express.Router();
+let jwtConfig = require('../config/jwtConfig');
 
 let multer = require('multer');
 let mongoose = require('mongoose');
@@ -44,27 +45,31 @@ postRouter.route("/posts")
                 .catch((error)=>{response.send(error)})
           })
 
-    .post(upload.single('image'),(request, response) => {
+    .post((jwtConfig.verifyJwtToken), upload.single('image'),(request, response) => {
 
         const url = request.protocol + '://' + request.get('host');
 
-        let postObject = new postSchema({
-            _id:request.body._id,
-            title: request.body.title,
-            category: request.body.category,
-            description: request.body.description,
-            price: request.body.price,
-            image: url + '/public/images/' + request.file.filename,
-            client: request.body.client
-        })
-        postObject.save()
-            .then((data) => {
-                response.send(data);
-            })
-            .catch((error) => {
-                response.send(error);
-            })
+              if(request.role == "sProvider"){
+                let postObject = new postSchema({
+                    _id:request.body._id,
+                    title: request.body.title,
+                    category: request.body.category,
+                    description: request.body.description,
+                    price: request.body.price,
+                    image: url + '/public/images/' + request.file.filename,
+                    client: request.body.client
+                })
+                postObject.save()
+                    .then((data) => {
+                        response.send(data);
+                    })
+                    .catch((error) => {
+                        response.send(error);
+                    })
+              }  
+                else response.status(500).send({message:"not authorized"})
     })
+
     .put((request, response) => {
         postSchema.updateOne({ _id: request.body._id }, {
             $set: {
@@ -72,7 +77,8 @@ postRouter.route("/posts")
                 category: request.body.category,
                 description: request.body.description,
                 price: request.body.price,
-                image: request.body.image
+                image: request.body.image,
+                location: request.body.location                      
             }
         })
             .then((data) => {

@@ -72,7 +72,8 @@ let secret = 'SECRET#123'
 clientSchema.methods.generateJwt = function () {
     return jwt.sign({ 
         email: this.email,
-        _id:this._id},
+        _id:this._id,
+        role:this.role},
         secret,
     {
         expiresIn: "1h"

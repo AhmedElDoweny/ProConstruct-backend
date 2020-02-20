@@ -9,7 +9,9 @@ let postSchema = new mongoose.Schema({
     category: String,
     description: String,
     price: Number,
-    image: String,
+    image: {
+        type:String
+    },
     client: {
         type: Number,
         ref: "client"

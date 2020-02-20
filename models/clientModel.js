@@ -3,25 +3,25 @@ let mongoose = require("mongoose"),
     jwt = require('jsonwebtoken'),
     autoInc = require("mongoose-auto-increment"),
     connection = mongoose.createConnection(`mongodb://localhost:27017/ProConstruct`, { useNewUrlParser: true, useUnifiedTopology: true });
-    autoInc.initialize(connection)
+autoInc.initialize(connection)
 
 
 // create schema
 let clientSchema = new mongoose.Schema({
-    _id:{
+    _id: {
         type: Number,
         required: true
     },
-    name:{
+    name: {
         type: String,
         required: `Name can't be empty`
     },
-    password:{
+    password: {
         type: String,
         required: `Password can't be empty`,
         minlength: [5, `Password must be atleast 5 character long`]
     },
-    email:{
+    email: {
         type: String,
         required: `Email can't be empty`,
         unique: true
@@ -30,20 +30,21 @@ let clientSchema = new mongoose.Schema({
     location: String,
     phone: String,
     image: String,
-    post:{
-        type: [Number],
+    post: [{
+        type: Number,
         ref: "post"
-    },
-    cart:{
+    }],
+    cart: {
         type: Number,
         ref: "cart",
     },
-    notification:{
-        type: [Number],
+    notification: [{
+        type: Number,
         ref: "notification"
-    }
+    }]
 
 })
+
 // Custom validation for email
 clientSchema.path('email').validate((val) => {
     emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

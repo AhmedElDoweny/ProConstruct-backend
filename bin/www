@@ -7,16 +7,15 @@
 const app = require('../app');
 const debug = require('debug')('proconstruct-app:server');
 const http = require('http');
-const mongoose=require("mongoose");
-const KEYS=require("../KEYS")
+const mongoose = require("mongoose");
+const KEYS = require("../KEYS")
 
 // DB connection
-// mongoose.connect("mongodb://localhost:27017/ProConstruct",{ useNewUrlParser: true })
 // mongoose.connect(`mongodb+srv://${KEYS.user}:${KEYS.pass}@proconstruct-a5jss.mongodb.net/ProConstruct?retryWrites=true&w=majority`,{ useUnifiedTopology: true })
-mongoose.connect(`mongodb://localhost:27017/ProConstruct`,{ useUnifiedTopology: true })
-.then(()=>{console.log(`------------ connected with DB user ${KEYS.user} ------------ \n--------------------------------`)})
-.catch(error => console.log(error));
-
+mongoose.connect(`mongodb://localhost:27017/ProConstruct`, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then(() => { console.log(`------------ connected with DB user ${KEYS.user} ------------ \n--------------------------------`) })
+  .catch(error => console.log(error));
+mongoose.set('useCreateIndex', true);
 
 /**
  * Get port from environment and store in Express.
@@ -31,11 +30,44 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
+let clients = [];
+
+var io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log('^^^^^^^^^^^^^^^^^^^^ a user connected ^^^^^^^^^^^^^^^^^^^^');
+
+  socket.on('creat socket id', (clientId) => {
+    let id = clients.findIndex(c => c._id == clientId);
+    if (id == -1) {
+      clients.push({
+        _id: clientId,
+        socketId: socket.id
+      })
+    } else {
+      clients[id].socketId = socket.id
+    }
+    console.log("clients arr: ", clients)
+  })
+
+  socket.on('send notification', (obj) => {
+    let client = clients.find(c => c._id == obj.to)
+    if (client){
+      io.to(client.socketId).emit('receive notification', obj.data);
+      console.log("obj.to: ", obj.to, "client: socketId", client.socketId, "im: ", obj.data.me)
+    }
+  })
+
+  socket.on('disconnect', () => {
+    console.log('$$$$$$$$ user disconnected $$$$$$$$');
+  });
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, (e)=>console.log('------------ I am Listening ------------'));
+server.listen(port, (e) => console.log('------------ I am Listening ------------'));
 server.on('error', onError);
 server.on('listening', onListening);
 

@@ -18,7 +18,6 @@ postRouter.route("/posts")
           })
 
           .post((jwtConfig.verifyJwtToken),(request,response)=>{
-            console.log(request.body.location)
               if(request.role == "sProvider"){
                 let postObject = new postSchema({
                     _id:request.body._id,
@@ -41,8 +40,7 @@ postRouter.route("/posts")
                 else response.status(500).send({message:"not authorized"})
           })
 
-          .put((request,response)=>{
-              
+          .put((request,response)=>{              
                 postSchema.updateOne({_id:request.body._id},{
                     $set:{
                         title:request.body.title,                    
@@ -61,16 +59,22 @@ postRouter.route("/posts")
                 })
           })
 
-          .delete((request,response)=>{
-                postSchema.deleteOne({_id:request.body._id})
-                .then((data)=>{
-                    response.send(data);
-                })
-                .catch((error)=>{
-                    response.send(error);
-                })
-          })
+    .delete((request, response) => {
+        postSchema.deleteOne({ _id: request.body._id })
+            .then((data) => {
+                response.send(data);
+            })
+            .catch((error) => {
+                response.send(error);
+            })
+    })
 
+// post-details
+postRouter.get("/posts/:id",(request,response)=>{
+    postSchema.findOne({_id:request.params.id})
+        .then(data=>{response.send(data)})
+        .catch(error=>{response.send(error)})
+})
 
 
 module.exports = postRouter;

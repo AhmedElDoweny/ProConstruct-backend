@@ -8,8 +8,8 @@ let clientSchema = mongoose.model('client')
 require("../models/cartmodel");
     let cartmodel=mongoose.model("cart");
 
-
 // get all clients
+
 clientRouter.route("/client/:id?")
     .get((jwtConfig.verifyJwtToken), (request, response) => {
         if (request.params.id) {
@@ -88,5 +88,6 @@ clientRouter.route("/client/:id?")
             .then(() => response.send({ deleted: true }))
             .catch(err => response.send({ err: err.errmsg }))
     })
+
 
 module.exports = clientRouter;

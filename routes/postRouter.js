@@ -12,44 +12,44 @@ let postSchema = mongoose.model('post');
 const dir = "./public/images";
 
 const storage = multer.diskStorage({
-    destination : (request,file,cb)=>{
-        cb(null,dir);
+    destination: (request, file, cb) => {
+        cb(null, dir);
     },
-    filename : (request,file,cb)=>{
+    filename: (request, file, cb) => {
         const fileName = file.originalname.toLowerCase().split(' ').join('-');
-        cb(null,fileName);
+        cb(null, fileName);
     }
 });
 
 // extention of uploaded image
 var upload = multer({
-    storage : storage,
-    fileFilter : (request,file,cb)=>{
+    storage: storage,
+    fileFilter: (request, file, cb) => {
         if (file.mimetype == "image/png" || file.mimetype == "image/jpeg" || file.mimetype == "image/jpg") {
-            cb(null,true);
+            cb(null, true);
         }
-        else{
-            cb(null,false);
+        else {
+            cb(null, false);
             return cb(new Error('this format not allowed only [png,jpg,jpeg]'));
         }
     }
 })
 
 postRouter.route("/posts")
-          .get((request,response)=>{
-                postSchema.find({})
-                .then((data)=>{
-                    response.send(data)                  
-                })
-                .catch((error)=>{response.send(error)})
-          })
+    .get((request, response) => {
+        postSchema.find({}).populate({path:"client"})
+            .then((data) => {
+                response.send(data)
+            })
+            .catch((error) => { response.send(error) })
+    })
 
-    .post(upload.single('image'),(request, response) => {
+    .post(upload.single('image'), (request, response) => {
 
         const url = request.protocol + '://' + request.get('host');
 
         let postObject = new postSchema({
-            _id:request.body._id,
+            _id: request.body._id,
             title: request.body.title,
             category: request.body.category,
             description: request.body.description,
@@ -92,13 +92,13 @@ postRouter.route("/posts")
                 response.send(error);
             })
     })
-    
+
 
 // post-details
-postRouter.get("/posts/:id",(request,response)=>{
-    postSchema.findOne({_id:request.params.id})
-        .then(data=>{response.send(data)})
-        .catch(error=>{response.send(error)})
+postRouter.get("/posts/:id", (request, response) => {
+    postSchema.findOne({ _id: request.params.id }).populate({path:"client"})
+        .then(data => { response.send(data) })
+        .catch(error => { response.send(error) })
 })
 
 

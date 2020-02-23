@@ -20,7 +20,7 @@ const clientRouter = require('./routes/clientRouter'),
 
 const app = require('express')();
 
-const whitelist = ['http://localhost:4200','undefined'];
+const whitelist = ['http://localhost:4200'];
 const corsOptions = {
     credentials: true, // This is important.
     origin: (origin, callback) => {

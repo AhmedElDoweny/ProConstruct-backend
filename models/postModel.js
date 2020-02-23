@@ -15,7 +15,8 @@ let postSchema = new mongoose.Schema({
     client: {
         type: Number,
         ref: "client"
-    }
+    },
+    location:{}
 });
 postSchema.plugin(autoInc.plugin, { model: 'post', field: '_id', startAt: 1, incrementBy: 1 })
 

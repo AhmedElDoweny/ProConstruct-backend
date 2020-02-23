@@ -71,10 +71,15 @@ clientSchema.methods.verifyPassword = function (password) {
 
 let secret = 'SECRET#123'
 clientSchema.methods.generateJwt = function () {
-    return jwt.sign({ email: this.email},
+    return jwt.sign({ 
+        _id:this._id,
+        email: this.email,
+        role:this.role,
+        cart:this.cart
+    },
         secret,
     {
-        expiresIn: "20m"
+        expiresIn: "1h"
     });
 }
 

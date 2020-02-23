@@ -38,7 +38,8 @@ var upload = multer({
 
 postRouter.route("/posts")
     .get((request, response) => {
-        postSchema.find({}).populate({path:"client"})
+        postSchema.find({})
+            .populate({ path: "client" })
             .then((data) => {
                 response.send(data)
             })
@@ -46,30 +47,31 @@ postRouter.route("/posts")
     })
 
 
-    .post((jwtConfig.verifyJwtToken),upload.single('image'), (request, response) => {
+    .post((jwtConfig.verifyJwtToken), upload.single('image'), (request, response) => {
 
         const url = request.protocol + '://' + request.get('host');
+        console.log(url)
+        console.log("role: ", request.role)
+        if (request.role == "sProvider") {
+            let postObject = new postSchema({
+                _id: request.body._id,
+                title: request.body.title,
+                category: request.body.category,
+                description: request.body.description,
+                price: request.body.price,
+                image: url + '/public/images/' + request.file.filename,
+                client: request.body.client
+            })
+            postObject.save()
+                .then((data) => {
+                    response.send(data);
+                })
+                .catch((error) => {
+                    response.send(error);
+                })
 
-              if(request.role == "sProvider"){
-        let postObject = new postSchema({
-            _id: request.body._id,
-            title: request.body.title,
-            category: request.body.category,
-            description: request.body.description,
-            price: request.body.price,
-            image: url + '/public/images/' + request.file.filename,
-            client: request.body.client
-        })
-        postObject.save()
-            .then((data) => {
-                response.send(data);
-            })
-            .catch((error) => {
-                response.send(error);
-            })
-                
-              }  
-                else response.status(500).send({message:"not authorized"})
+        }
+        else response.status(500).send({ message: "not authorized" })
     })
 
     .put((request, response) => {
@@ -80,7 +82,7 @@ postRouter.route("/posts")
                 description: request.body.description,
                 price: request.body.price,
                 image: request.body.image,
-                location: request.body.location                      
+                location: request.body.location
             }
         })
             .then((data) => {
@@ -104,7 +106,7 @@ postRouter.route("/posts")
 
 // post-details
 postRouter.get("/posts/:id", (request, response) => {
-    postSchema.findOne({ _id: request.params.id }).populate({path:"client"})
+    postSchema.findOne({ _id: request.params.id }).populate({ path: "client" })
         .then(data => { response.send(data) })
         .catch(error => { response.send(error) })
 })

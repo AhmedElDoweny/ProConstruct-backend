@@ -20,11 +20,11 @@ const clientRouter = require('./routes/clientRouter'),
 
 const app = require('express')();
 
-const whitelist = ['http://localhost:4100', 'http://localhost:4200', 'http://localhost:4300', 'http://localhost:4400'];
+const whitelist = ['http://localhost:4200','undefined'];
 const corsOptions = {
     credentials: true, // This is important.
     origin: (origin, callback) => {
-        if (whitelist.includes(origin))
+        if (!origin || whitelist.includes(origin))
             return callback(null, true)
 
         callback(new Error('Not allowed by CORS'));
@@ -39,10 +39,10 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static('public'));
 
-// home route
-app.use(/\//, (request, response) => {
-    response.send("WELCOME HOME...")
-})
+// // home route
+// app.use(/\//, (request, response) => {
+//     response.send("WELCOME HOME...")
+// })
 app.use(passport.initialize())
 app.use(loginRouter)
 app.use(clientRouter);

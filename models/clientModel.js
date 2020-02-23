@@ -51,7 +51,7 @@ clientSchema.path('email').validate((val) => {
     return emailRegex.test(val);
 }, 'Invalid e-mail.');
 
-clientSchema.plugin(autoInc.plugin, {model:'client',field: '_id', startAt: 1, incrementBy: 1 })
+clientSchema.plugin(autoInc.plugin, { model: 'client', field: '_id', startAt: 1, incrementBy: 1 })
 
 // Events
 clientSchema.pre('save', function (next) {
@@ -71,17 +71,19 @@ clientSchema.methods.verifyPassword = function (password) {
 
 let secret = 'SECRET#123'
 clientSchema.methods.generateJwt = function () {
-    return jwt.sign({ 
-        _id:this._id,
-        email: this.email,
-        role:this.role,
-        cart:this.cart
-    },
+    return jwt.sign(
+        {
+            _id: this._id,
+            name: this.name,
+            email: this.email,
+            role: this.role,
+            cart: this.cart
+        },
         secret,
-    {
-        expiresIn: "1h"
-    });
+        {
+            expiresIn: "1h"
+        });
 }
 
 // mapping
-mongoose.model("client",clientSchema)
+mongoose.model("client", clientSchema)

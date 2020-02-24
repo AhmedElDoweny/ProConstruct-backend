@@ -51,7 +51,7 @@ postRouter.route("/posts")
 
         const url = request.protocol + '://' + request.get('host');
         console.log(url)
-        console.log("role: ", request.role)
+        //console.log('location: ', JSON.parse(request.body.location))
         if (request.role == "sProvider") {
             let postObject = new postSchema({
                 _id: request.body._id,
@@ -60,7 +60,8 @@ postRouter.route("/posts")
                 description: request.body.description,
                 price: request.body.price,
                 image: url + '/public/images/' + request.file.filename,
-                client: request.body.client
+                client: request.body.client,
+                location:JSON.parse(request.body.location)
             })
             postObject.save()
                 .then((data) => {

@@ -47,14 +47,14 @@ io.on('connection', (socket) => {
     } else {
       clients[id].socketId = socket.id
     }
-    console.log("clients arr: ", clients)
+    console.log(clients)
   })
 
   socket.on('send notification', (obj) => {
     let client = clients.find(c => c._id == obj.to)
     if (client){
       io.to(client.socketId).emit('receive notification', obj.data);
-      console.log("obj.to: ", obj.to, "client: socketId", client.socketId, "im: ", obj.data.me)
+      console.log("obj.to:", obj.to, "im:", obj.data.me, "client: socketId", client.socketId)
     }
   })
 

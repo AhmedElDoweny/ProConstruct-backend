@@ -68,17 +68,45 @@ cartRouter.route("/cart/:_id?")
                 response.send({ err: err.errmsg })
             })
     })
+    // .patch((request,response)=>{
+    //     cartmodel.update({_id:request.params._id},
+    //          {$pull:{ "pending": request.body._id}})
+    //          .then((data)=>{
+    //              response.send(data)
+    //          })
+    //          .catch((err)=>{
+    //              response.send(err)
+    //          })
+             
+    // })
     .patch((request,response)=>{
-        cartmodel.update({_id:request.params._id},
-             {$pull:{ "pending": request.body._id}})
-             .then((data)=>{
-                 response.send(data)
-             })
-             .catch((err)=>{
-                 response.send(err)
-             })
+        if(request.body.pull){
+            cartmodel.update({_id:request.params._id},
+                {$pull:{ "pending": request.body._id}})
+                .then((data)=>{
+                    response.send(data)
+                })
+                .catch((err)=>{
+                    response.send(err)
+                })
+        }
+        if(request.body.push){
+            cartmodel.update({_id:request.params._id},
+                {$push:{ "pending": request.body.post_id}})
+                .then((data)=>{
+                    response.send(data)
+                })
+                .catch((err)=>{
+                    response.send(err)
+                })
+         }
+
+           
+        
              
     })
+    
+
     
 
 module.exports = cartRouter;

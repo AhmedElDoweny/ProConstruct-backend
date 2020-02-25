@@ -41,7 +41,8 @@ let clientSchema = new mongoose.Schema({
     notification: [{
         type: Number,
         ref: "notification"
-    }]
+    }],
+    token: String
 
 })
 

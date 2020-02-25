@@ -16,7 +16,8 @@ const clientRouter = require('./routes/clientRouter'),
     postRouter = require("./routes/postRouter"),
     loginRouter = require("./routes/loginRouter"),
     settingRouter = require("./routes/settingRouter"),
-    adminRouter = require("./routes/adminRouter");
+    adminRouter = require("./routes/adminRouter"),
+    forgetPwRouter = require("./routes/forgetPw")
 
 const app = require('express')();
 
@@ -51,7 +52,7 @@ app.use(cartRouter);
 app.use(notificationRouter);
 app.use(adminRouter);
 app.use(settingRouter);
-
+app.use(forgetPwRouter);
 // 404 route
 app.use("**", (request, response) => {
     response.send("404 NOT Found")

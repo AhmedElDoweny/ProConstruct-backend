@@ -3,8 +3,10 @@ let express = require("express"),
     notificationRouter = express.Router();
 
 require("../models/notificationmodel");
+require("../models/clientModel");
 
 let notificationschema = mongoose.model("notification");
+let clientSchema = mongoose.model("client");
 
 //routing
 notificationRouter.route("/notification/:_id?")
@@ -32,16 +34,18 @@ notificationRouter.route("/notification/:_id?")
     //add notification
     .post((request, response) => {
         let notifObject = new notificationschema({
-            _id: request.body._id,
             title: request.body.title,
             content: request.body.content,
             client: request.body.client,
-            isseen: request.body.isseen,
-            isread: request.body.isread
-
+            isseen: false,
+            isread: false
         });
         console.log("Add ==>" + notifObject);
         notifObject.save().then(data => {
+            clientSchema.updateOne({_id:request.body.client},{
+                $push:{"notification": data._id}
+            }).then(d=>console.log('notification added -> ', d, "n_id: ", data._id))
+            .catch(e=>console.log(e))
             response.send(data)
         }).catch((err) => {
             response.send({ err: err.errmsg });

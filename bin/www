@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
     let client = clients.find(c => c._id == obj.to)
     if (client){
       io.to(client.socketId).emit('receive notification', obj.data);
-      console.log("obj.to:", obj.to, "im:", obj.data.me, "client: socketId", client.socketId)
+      console.log("obj.to:", obj.to, "im:", obj.data.me, "client: socketId", client.socketId, 'sent notification ->', obj.data)
     }
   })
 

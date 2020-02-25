@@ -19,6 +19,7 @@ clientRouter.route("/client/:id?")
         }
         else if (request.email) {
             clientSchema.findOne({ email: request.email })
+                .populate({path:'post'})
                 .then(data => response.send(data))
                 .catch(err => response.send({ err: err.errmsg }))
         }

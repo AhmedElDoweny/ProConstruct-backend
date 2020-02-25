@@ -9,6 +9,10 @@ require("../models/postModel");
 
 let postSchema = mongoose.model('post');
 
+require("../models/clientModel");
+
+let clientschema = mongoose.model('client');
+
 // path of image
 const dir = "./public/images";
 
@@ -54,7 +58,6 @@ postRouter.route("/posts")
         console.log("role: ", request.role)
         if (request.role == "sProvider") {
             let postObject = new postSchema({
-                _id: request.body._id,
                 title: request.body.title,
                 category: request.body.category,
                 description: request.body.description,
@@ -64,7 +67,14 @@ postRouter.route("/posts")
             })
             postObject.save()
                 .then((data) => {
-                    response.send(data);
+                    console.log("cl",request.body.client)
+                    clientschema.updateOne({_id:request.body.client},{
+                      
+                        $push:{'post':data._id}
+
+                    })
+                    .then((data)=>{response.send(data);console.log(data)})
+                    .catch((err)=>{response.send(err)})
                 })
                 .catch((error) => {
                     response.send(error);

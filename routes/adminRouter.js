@@ -1,6 +1,7 @@
 const express = require("express"),
     adminRouter = express.Router(),
     mongoose = require("mongoose");
+    jwtConfig = require('../config/jwtConfig');
 
 require("../models/adminModel");
 const adminSchema = mongoose.model("admin");
@@ -8,12 +9,18 @@ const adminSchema = mongoose.model("admin");
 adminRouter.route("/admin/:_id?")
 
     // GET -> get one admin
-    .get((request, response) => {
+    .get((jwtConfig.verifyJwtToken),(request, response) => {
         if (request.params._id) {
             adminSchema.findOne({ _id: request.params._id })
                 .then(data => response.send(data))
                 .catch(error => response.send(error))
-        } else {
+        }
+        else if(request.email){
+            adminSchema.findOne({ email: request.email })
+                .then(data => response.send(data))
+                .catch(error => response.send(error))
+        }
+        else {
             adminSchema.find({})
                 .then(data => { response.send(data); console.log(request.params.id) })
                 .catch(error => response.send(error))

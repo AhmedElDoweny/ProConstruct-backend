@@ -85,9 +85,17 @@ clientRouter.route("/client/:id?")
     })
     // delete client
     .delete((jwtConfig.verifyJwtToken), (request, response) => {
-        clientSchema.deleteOne({ _id: request.body._id })
+        clientSchema.deleteOne({ _id: request.params.id })
             .then(() => response.send({ deleted: true }))
             .catch(err => response.send({ err: err.errmsg }))
+    })
+
+    clientRouter.route("/clients")
+    .get((jwtConfig.verifyJwtToken), (request, response) => {
+            clientSchema.find({})
+                .then(data => response.send(data))
+                .catch(err => response.send({ err: err.errmsg }))
+        
     })
 
 

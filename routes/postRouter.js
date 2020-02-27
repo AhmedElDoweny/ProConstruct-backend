@@ -40,14 +40,22 @@ var upload = multer({
     }
 })
 
-postRouter.route("/posts")
+postRouter.route("/posts/:id?")
     .get((request, response) => {
-        postSchema.find({})
+        if(request.params.id){
+            postSchema.findOne({ _id: request.params.id }).populate({ path: "client" })
+            .then(data => { response.send(data) })
+            .catch(error => { response.send(error) })
+        }
+        else{
+            postSchema.find({})
             .populate({ path: "client" })
             .then((data) => {
                 response.send(data)
             })
             .catch((error) => { response.send(error) })
+        }
+        
     })
 
 
@@ -105,22 +113,18 @@ postRouter.route("/posts")
     })
 
     .delete((request, response) => {
-        postSchema.deleteOne({ _id: request.body._id })
-            .then((data) => {
-                response.send(data);
-            })
-            .catch((error) => {
-                response.send(error);
-            })
+        postSchema.deleteOne({ _id: request.params.id })
+        .then(() => response.send({ deleted: true }))
+        .catch(err => response.send({ err: err.errmsg }))
     })
 
 
 // post-details
-postRouter.get("/posts/:id", (request, response) => {
-    postSchema.findOne({ _id: request.params.id }).populate({ path: "client" })
-        .then(data => { response.send(data) })
-        .catch(error => { response.send(error) })
-})
+// postRouter.get("/posts/:id", (request, response) => {
+//     postSchema.findOne({ _id: request.params.id }).populate({ path: "client" })
+//         .then(data => { response.send(data) })
+//         .catch(error => { response.send(error) })
+// })
 
 
 module.exports = postRouter;

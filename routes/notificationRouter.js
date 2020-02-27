@@ -13,7 +13,7 @@ notificationRouter.route("/notification/:_id?")
     //get notifications
     .get((request, response) => {
         if (request.params._id) {
-            notificationschema.findOne({ _id: request.params._id })
+            notificationschema.find({ client: request.params._id })
                 .then(result => {
                     response.send(result);
                 })

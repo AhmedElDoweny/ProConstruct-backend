@@ -74,7 +74,7 @@ forgetPwRouter.route("/forget")
                                 request.body.password = hash;
                                 clientSchema.updateOne({email:email},{
                                     $set:{password: request.body.password}
-                                }).then(data => console.log(data))
+                                }).then(data => response.send(data))
                                 .catch(err => response.send())
                             });
                         }); 

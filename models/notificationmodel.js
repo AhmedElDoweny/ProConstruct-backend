@@ -21,6 +21,11 @@ let notificationModel = new mongoose.Schema({
         ref: "client",
         required: true
     },
+    from:{
+        type: Number,
+        ref: "client",
+        required: true
+    },
     isseen: {
         type: Boolean,
         require: true

@@ -37,6 +37,7 @@ notificationRouter.route("/notification/:_id?")
             title: request.body.title,
             content: request.body.content,
             client: request.body.client,
+            from: request.body.from,
             isseen: false,
             isread: false
         });
@@ -58,6 +59,7 @@ notificationRouter.route("/notification/:_id?")
                 title: request.body.title,
                 content: request.body.content,
                 client: request.body.client,
+                from: request.body.from,
                 isseen: request.body.isseen,
                 isread: request.body.isread,
 

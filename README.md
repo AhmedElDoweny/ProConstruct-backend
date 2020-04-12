@@ -8,3 +8,11 @@ need and know what is the nearest concrete batching plants and it’s
 specifications.
 ProConstruct App is also a marketplace for selling construction equipment
 and materials.
+
+## Used Technology
+* MongoDB
+* Mongoose
+* Node.js
+* Express.js
+* JWT
+* Socket.IO

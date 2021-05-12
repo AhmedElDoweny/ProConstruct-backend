@@ -36,7 +36,7 @@
     "mongoose-sequence": "^5.2.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
-    "nodemailer": "^6.4.3",
+    "nodemailer": "^6.4.16",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
